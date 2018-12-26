@@ -1,5 +1,0 @@
-name: BungeeMSG
-authors: [Fadi Shawki, Robin Egberts, LimeGlass]
-version: 3.0.0
-description: A BungeeCord messaging and util plugin.
-main: me.fadishawki.bungeemsg.BungeeMSG
