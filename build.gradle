@@ -5,10 +5,10 @@ repositories {
 	mavenCentral()
 	jcenter()
 	
-	 //Bungeecord
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
+	//Bungeecord
+	maven {
+		url "https://oss.sonatype.org/content/repositories/snapshots"
+	}
 
 }
 

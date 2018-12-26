@@ -27,13 +27,13 @@ public class AnnouncerLoader extends ConfigLoader<Set<Announcer>> {
 			List<String> servers = configuration.getStringList(path + ".Servers");
 			int interval = configuration.getInt(path + ".Interval", 100);
 			List<Message> messages = new ArrayList<>();
-			List<Instance> instances = new ArrayList<>();
 			for (String index : configuration.getSection(path + ".Messages").getKeys()) {
-				path = path + ".Messages.";
-				for (String type : configuration.getSection(path + index).getKeys()) {
+				path = path + ".Messages." + index;
+				for (String type : configuration.getSection(path).getKeys()) {
+					List<Instance> instances = new ArrayList<>();
 					Message.Type messageType = Message.Type.valueOf(type);
 					if (messageType != null) {
-						path = path + index + "." + type;
+						path = path + "." + type;
 						instances.add(messageType.load(configuration, path));
 					}
 					messages.add(new Message(null, null, null, instances.toArray(new Instance[instances.size()])));

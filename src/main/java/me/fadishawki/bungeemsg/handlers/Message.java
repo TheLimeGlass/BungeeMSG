@@ -174,17 +174,7 @@ public class Message {
                     messageList.add(Utils.color(message));
                 }
 
-                return new MessageList(messageList) {
-                    @Override
-                    public boolean adjustFilter(Filter filter) {
-                        throw new IllegalStateException();
-                    }
-
-                    @Override
-                    public boolean send(BungeePlayer receiver) {
-                        throw new IllegalStateException();
-                    }
-                };
+                return new MessageList(messageList);
             }
         },
         TITLE("Title") {

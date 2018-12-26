@@ -2,15 +2,14 @@ package me.fadishawki.bungeemsg.handlers;
 
 public interface Receiver {
 
-    boolean receive(Message message);
+	boolean receive(Message message);
 
-    Type getType();
+	Type getType();
 
-    enum Type {
+	enum Type {
+		PLAYER,
+		CHANNEL,
+		SERVER;
+	}
 
-        PLAYER,
-        CHANNEL,
-        SERVER;
-
-    }
 }
