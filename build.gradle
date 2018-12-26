@@ -1,0 +1,28 @@
+apply plugin: 'java-library'
+apply plugin: 'eclipse'
+
+repositories {
+	mavenCentral()
+	jcenter()
+	
+	 //Bungeecord
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+
+}
+
+dependencies {
+	
+	//Bungeecord
+	implementation (group: 'net.md-5', name: 'bungeecord-api', version: '1.13-SNAPSHOT')
+	
+	implementation fileTree(dir: 'lib', include: '*.jar')
+
+}
+
+processResources {
+	from (sourceSets.main.resources.srcDirs) {
+		include '**/*.yml'
+	}
+}

@@ -1,0 +1,104 @@
+package me.fadishawki.bungeemsg.objects;
+
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import me.fadishawki.bungeemsg.handlers.Message;
+import me.fadishawki.bungeemsg.handlers.Receiver;
+import me.fadishawki.bungeemsg.handlers.Sender;
+
+public class BungeePlayer implements Receiver, Sender {
+
+    private static List<BungeePlayer> players = new ArrayList<>();
+
+    private BungeeServer server;
+    private Channel currentChannel;
+
+    private ProxiedPlayer player;
+
+    public BungeePlayer(ProxiedPlayer player) {
+        this.player = player;
+    }
+
+    /* JOIN & LEAVE METHODS */
+    public void connect(BungeeServer server) {
+        if (this.server != null) {
+            this.disconnect();
+        }
+        this.server = server;
+        if (this.server != null) {
+            this.player.setReconnectServer(server.getServer());
+            this.server.join(this);
+        }
+    }
+
+    public void disconnect() {
+        this.server.leave(this);
+        this.server = null;
+    }
+
+    /* GETTERS */
+    public ProxiedPlayer getPlayer() {
+        return player;
+    }
+
+    public BungeeServer getConnectedServer() {
+        return server;
+    }
+
+    public Channel getCurrentChannel() {
+        return currentChannel;
+    }
+
+    public void setCurrentChannel(Channel currentChannel) {
+        this.currentChannel = currentChannel;
+    }
+
+    /* OVERRIDABLE METHODS */
+    @Override
+    public boolean receive(Message message) {
+        if (!message.applyVariables(this))
+            return false;
+//        if (!message.adjustFilter(null))//TODO
+//            return false;
+        if (!message.send(this))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.PLAYER;
+    }
+
+    /* STATIC METHODS */
+    public static BungeePlayer getPlayer(String name) {
+        for (BungeePlayer player : players) {
+            if (name.equals(player.getPlayer().getName())) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public static BungeePlayer getPlayer(UUID id) {
+        for (BungeePlayer player : players) {
+            if (player.getPlayer().getUniqueId().equals(id)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public static BungeePlayer getPlayer(ProxiedPlayer player) {
+        return getPlayer(player.getUniqueId());
+    }
+
+    public static List<BungeePlayer> getPlayers() {
+        return players;
+    }
+}

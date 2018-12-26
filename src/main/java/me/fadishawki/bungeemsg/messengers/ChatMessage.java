@@ -1,0 +1,53 @@
+package me.fadishawki.bungeemsg.messengers;
+
+import me.fadishawki.bungeemsg.filter.Filter;
+import me.fadishawki.bungeemsg.handlers.Message;
+import me.fadishawki.bungeemsg.objects.BungeePlayer;
+import me.fadishawki.bungeemsg.objects.Variable;
+import net.md_5.bungee.api.chat.TextComponent;
+
+public class ChatMessage implements Message.Instance {
+
+    private String message;
+
+    public ChatMessage(String message) {
+        this.message = message;
+    }
+
+    public ChatMessage(ChatMessage chatMessage) {
+        this(chatMessage.message);
+    }
+
+    @Override
+    public Message.Type getType() {
+        return Message.Type.CHAT;
+    }
+
+    @Override
+    public boolean send(BungeePlayer receiver) {
+        receiver.getPlayer().sendMessage(new TextComponent(message));
+
+        return true;
+    }
+
+    @Override
+    public boolean adjustFilter(Filter filter) {
+        return filter.filter(message);
+    }
+
+    @Override
+    public boolean applyVariables(BungeePlayer receiver, Variable[] variables) {
+        //TODO
+        return true;
+    }
+
+    @Override
+    public boolean hasVariable(Variable variable) {
+        return message.contains(variable.getVariable());
+    }
+
+    @Override
+    public Message.Instance copy() {
+        return new ChatMessage(this);
+    }
+}
